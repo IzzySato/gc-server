@@ -1,6 +1,6 @@
 const { REQUIRED_FIELD } = require('../../../constants/errorMessage');
 const logger = require('../../../lib/logger');
-const Project = require('../../models/project');
+const Project = require('../../models/Project');
 
 const getAllProjects = async () => {
   try {

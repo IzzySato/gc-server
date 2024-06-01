@@ -4,10 +4,12 @@ const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('./lib/logger.js');
+const passport = require('passport');
 const cookieSession = require('cookie-session');
 
 const projectRouter = require('./routes/project/index.js');
 const userRouter = require('./routes/user/index.js');
+const authRouter = require('./routes/auth/index.js');
 const { dbConnect } = require('./database/db_config.js');
 
 dotenv.config();
@@ -16,12 +18,16 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 require('./lib/cache.js');
+require('./middlewares/passport.js');
 
 app.use(cookieSession({
   name: 'session',
   keys: [process.env.SESSION_SECRET],
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -47,6 +53,7 @@ dbConnect();
 
 app.use('/project', projectRouter);
 app.use('/user', userRouter);
+app.use('/auth', authRouter);
 
 app.use((req, res, next) => {
   next(createError(404));

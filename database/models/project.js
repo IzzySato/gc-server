@@ -1,17 +1,13 @@
 const mongoose = require('mongoose');
 
 const ProjectSchema = new mongoose.Schema({
-  isRenovation: {
-    type: Boolean,
-    required: true,
-  },
   type: {
-    type: String,
+    type: String, // e.g. new, reno, or reno/new
     required: true,
   },
-  location: {
-    type: String,
-    required: true,
+  addressId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Address',
   },
   uerId: {
     type: mongoose.Schema.Types.ObjectId,

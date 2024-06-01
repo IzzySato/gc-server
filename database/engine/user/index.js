@@ -1,5 +1,23 @@
 const logger = require('../../../lib/logger');
-const User = require('../../models/user');
+const User = require('../../models/User');
+
+const findOrCreate = ({ id, name: { familyName, givenName }, emails }) => {
+  try {
+    const user = User.findOne({ email: emails[0].value });
+    if (user) {
+      return user;
+    } else {
+      User.create({
+        firstName: givenName,
+        lastName: familyName,
+        email: emails[0].value,
+        authProviderId: id,
+      });
+    }
+  } catch (error) {
+    logger.error(error.toString());
+  }
+};
 
 const getUserById = async (id) => {
   try {
@@ -17,4 +35,4 @@ const addUser = async (user) => {
   }
 };
 
-module.exports = { addUser, getUserById };
+module.exports = { addUser, getUserById, findOrCreate };
