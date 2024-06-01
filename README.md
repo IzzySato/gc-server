@@ -10,4 +10,6 @@
 2. npm start
 3. 'brew services start redis' to start redis
 4. listening to the port 8080
-# gc
+
+## To Stop Redis
+'brew services stop redis' 

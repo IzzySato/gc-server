@@ -7,6 +7,7 @@ const logger = require('./lib/logger.js');
 const cookieSession = require('cookie-session');
 
 const projectRouter = require('./routes/project/index.js');
+const userRouter = require('./routes/user/index.js');
 const { dbConnect } = require('./database/db_config.js');
 
 dotenv.config();
@@ -45,6 +46,7 @@ app.use(
 dbConnect();
 
 app.use('/project', projectRouter);
+app.use('/user', userRouter);
 
 app.use((req, res, next) => {
   next(createError(404));
